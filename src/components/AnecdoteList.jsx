@@ -1,8 +1,17 @@
 import { Link } from 'react-router-dom'
 
-const AnecdoteList = ({ anecdotes, vote }) => (
+const AnecdoteList = ({ anecdotes, vote, notification }) => {
+
+  const notificationStyle = {
+    color: 'green'
+  }
+
+  return (
   <div>
     <h2>Anecdotes</h2>
+    {notification !== null ?
+    <h3 style={notificationStyle}>{notification}</h3> :
+    null}
     <ul>
       {anecdotes.map(anecdote =>
         <li key={anecdote.id} >
@@ -11,5 +20,6 @@ const AnecdoteList = ({ anecdotes, vote }) => (
     </ul>
   </div>
 )
+}
 
 export default AnecdoteList
