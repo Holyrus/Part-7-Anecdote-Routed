@@ -8,8 +8,7 @@ import Anecdote from './components/Anecdote'
 import Login from './components/Login'
 
 import {
-  Routes, Route,
-  BrowserRouter as Router
+  Routes, Route, useMatch
 } from 'react-router-dom'
 
 // npm install react-router-dom
@@ -60,20 +59,25 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
+  // For recieving only one anecdote by Anecdote component
+
+  const match = useMatch('/anecdotes/:id')
+  const anecdote = match
+   ? anecdotes.find(anec => anec.id === Number(match.params.id))
+   : null
+
   return (
     <div>
       <h1>Software anecdotes</h1>
-        <Router>
         <Menu user={user}/>
           <Routes>
             <Route path="/" element={<AnecdoteList notification={notification} anecdotes={anecdotes} vote={vote} />} />
-            <Route path="/anecdotes/:id" element={<Anecdote anecdotes={anecdotes} vote={vote} />} />
+            <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} vote={vote} />} />
             <Route path="/create" element={<CreateNew setNotification={setNotification} addNew={addNew} />} />
             <Route path="/about" element={<About />} />
 
             <Route path="/login" element={<Login onLogin={login} />} />
           </Routes>
-        </Router>
       <Footer />
     </div>
   )

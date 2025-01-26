@@ -1,9 +1,13 @@
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 
-const Anecdote = ({ anecdotes, vote }) => {
-  const id = useParams().id
-  const anecdote = anecdotes.find(a => a.id === Number(id))
+const Anecdote = ({ anecdote, vote }) => {
+  // By this code component recieves all anecdotes
+  // and then filters it:
+  // const id = useParams().id
+  // const anecdote = anecdotes.find(a => a.id === Number(id))
 
+  // Code that recieves only one
+  // particular anecdote in App.jsx
   return (
     <div>
       <h3>{anecdote.content}</h3>
