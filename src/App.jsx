@@ -5,6 +5,7 @@ import About from './components/About'
 import Footer from './components/Footer'
 import CreateNew from './components/CreateNew'
 import Anecdote from './components/Anecdote'
+import Login from './components/Login'
 
 import {
   Routes, Route,
@@ -14,6 +15,13 @@ import {
 // npm install react-router-dom
 
 const App = () => {
+
+  const [user, setUser] = useState(null)
+
+  const login = (user) => {
+    setUser(user)
+  }
+
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
@@ -56,12 +64,14 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
         <Router>
-        <Menu />
+        <Menu user={user}/>
           <Routes>
             <Route path="/" element={<AnecdoteList notification={notification} anecdotes={anecdotes} vote={vote} />} />
             <Route path="/anecdotes/:id" element={<Anecdote anecdotes={anecdotes} vote={vote} />} />
             <Route path="/create" element={<CreateNew setNotification={setNotification} addNew={addNew} />} />
             <Route path="/about" element={<About />} />
+
+            <Route path="/login" element={<Login onLogin={login} />} />
           </Routes>
         </Router>
       <Footer />
