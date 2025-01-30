@@ -7,18 +7,35 @@ import CreateNew from './components/CreateNew'
 import Anecdote from './components/Anecdote'
 import Login from './components/Login'
 
+// import { Alert } from 'react-bootstrap'
+
 import {
   Routes, Route, useMatch
 } from 'react-router-dom'
 
 // npm install react-router-dom
 
+// Using Material Design Library for styling
+// npm install @mui/material @emotion/react @emotion/styled
+
+import { Alert, Container } from '@mui/material'
+
+// Using Styled components
+// npm install styled-components
+
+import styled from 'styled-components'
+
 const App = () => {
 
   const [user, setUser] = useState(null)
+  const [loginMessage, setLoginMessage] = useState(null)
 
   const login = (user) => {
     setUser(user)
+    setLoginMessage(`Welcome ${user}`)
+    setTimeout(() => {
+      setLoginMessage(null)
+    }, 10000)
   }
 
   const [anecdotes, setAnecdotes] = useState([
@@ -66,20 +83,60 @@ const App = () => {
    ? anecdotes.find(anec => anec.id === Number(match.params.id))
    : null
 
-  return (
-    <div>
-      <h1>Software anecdotes</h1>
-        <Menu user={user}/>
-          <Routes>
-            <Route path="/" element={<AnecdoteList notification={notification} anecdotes={anecdotes} vote={vote} />} />
-            <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} vote={vote} />} />
-            <Route path="/create" element={<CreateNew setNotification={setNotification} addNew={addNew} />} />
-            <Route path="/about" element={<About />} />
+  // For using Styled components library
 
-            <Route path="/login" element={<Login onLogin={login} />} />
-          </Routes>
-      <Footer />
-    </div>
+  const Page = styled.div`
+    padding: 1em;
+    background: papayawhip;
+  `
+
+  const Navigation = styled.div`
+    background: BurlyWood;
+    padding: 1em;
+  `
+
+  const FooterStyle = styled.div`
+    background: Chocolate;
+    padding: 1em;
+    margin-top: 1em;
+  `
+
+  return (
+    <Page>
+    <Container>
+      <h1>Software anecdotes</h1>
+      <Navigation>
+        <Menu user={user}/>
+      </Navigation>
+
+      {/* Using Material UI  */}
+
+      {(loginMessage && 
+        <Alert security='success'>
+          {loginMessage}
+        </Alert>
+      )}
+
+      {/* Using bootstrap */}
+
+      {/* {(loginMessage && 
+        <Alert variant='success'>
+          {loginMessage}
+        </Alert>
+      )} */}
+      <Routes>
+        <Route path="/" element={<AnecdoteList notification={notification} anecdotes={anecdotes} vote={vote} />} />
+        <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} vote={vote} />} />
+        <Route path="/create" element={<CreateNew setNotification={setNotification} addNew={addNew} />} />
+        <Route path="/about" element={<About />} />
+
+        <Route path="/login" element={<Login onLogin={login} />} />
+      </Routes>
+      <FooterStyle>
+        <Footer />
+      </FooterStyle>
+    </Container>
+    </Page>
   )
 }
 
